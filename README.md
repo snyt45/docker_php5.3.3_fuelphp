@@ -5,6 +5,7 @@
 ## 1. git clone
 ```
 git clone https://github.com/snyt45/docker_php5.3.3_fuelphp.git
+cd docker_php5.3.3_fuelphp/
 ```
 
 ## 2. コンテナ作成と起動
@@ -24,7 +25,7 @@ http://localhost:4040/
 # コンテナID確認
 docker ps
 # phpコンテナに入る
-docker exec -it fuelphp_php_1 /bin/bash
+docker exec -it docker_php533_fuelphp_php_1 /bin/bash
 # composerのインストール
 curl -sS https://getcomposer.org/installer | php
 # composerのインストール確認
