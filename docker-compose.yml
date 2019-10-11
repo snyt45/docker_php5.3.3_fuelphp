@@ -6,8 +6,9 @@ services:
       context: ./docker/php/
       dockerfile: Dockerfile
     volumes:
+      - .:/app
       - ./docker/php/php.ini:/etc/php.ini
-      - ./fuel-app:/var/www/html
+      - ./docker/httpd/httpd.conf:/etc/httpd/conf/httpd.conf
     ports:
       - 8080:80
   mysql:

@@ -14,6 +14,9 @@ RUN yum install -y \
         httpd && \
     yum clean all
 
+RUN mkdir /app
+WORKDIR /app
+
 EXPOSE 80
 
 CMD ["/usr/sbin/apachectl","-DFOREGROUND"]
