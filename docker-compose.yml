@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  php:
+    build:
+      context: ./docker/php/
+      dockerfile: Dockerfile
+    volumes:
+      - ./docker/php/php.ini:/etc/php.ini
+      - ./fuel-app:/var/www/html
+    ports:
+      - 8080:80
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - ./docker/mysql/volumes:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=test
+      - MYSQL_USER=test
+      - MYSQL_PASSWORD=test
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mysql
+      - PMA_USER=test
+      - PMA_PASSWORD=test
+    links:
+      - mysql
+    ports:
+      - 4040:80
+    volumes:
+      - ./docker/phpmyadmin/sessions:/sessions
