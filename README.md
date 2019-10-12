@@ -61,7 +61,7 @@ fuelphpをインストール後､ホスト側にfuel-appというフォルダ�
 http://localhost:8080/ にアクセスすると､まだApacheの画面が表示されると思います｡
 
 
-## 6. oilコマンドについて
+## 7. oilコマンドについて
 下記の2種類のoilコマンドがあります。
 
 ①/usr/local/bin/oil
@@ -74,7 +74,7 @@ http://localhost:8080/ にアクセスすると､まだApacheの画面が表示
 
 ・fuel-app配下にいないと使えない。
 
-## 7. httpd.confの修正
+## 8. httpd.confの修正
 
 ホスト側のhttpd.confを下記のように変更してください｡
 
@@ -93,7 +93,7 @@ docker-compose up -d
 ```
 
 
-## 6. 反映確認
+## 9. 反映確認
 再度 http://localhost:8080/ にアクセスして､以下の画面が表示されれば成功です｡
 
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/163887/584f6e04-8a32-98bf-f696-cad1160af4c6.png)
