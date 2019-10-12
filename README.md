@@ -24,16 +24,22 @@ http://localhost:4040/
 ```
 # コンテナID確認
 docker ps
+
 # phpコンテナに入る
 docker exec -it docker_php533_fuelphp_php_1 /bin/bash
+
 # composerのインストール
 curl -sS https://getcomposer.org/installer | php
+
 # composerのインストール確認
 php composer.phar
+
 # fuel phpのoilコマンドインストール
 curl https://get.fuelphp.com/oil | sh
+
 # fuel phpのoilコマンドインストール確認
 which oil
+
 # fuel phpのインストール
 oil create fuel-app
 ```
