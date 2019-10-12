@@ -9,11 +9,13 @@ services:
       - .:/app
       - ./docker/php/php.ini:/etc/php.ini
       - ./docker/httpd/httpd.conf:/etc/httpd/conf/httpd.conf
+      - ./docker/mysql/volumes:/var/lib/mysql
     ports:
       - 8080:80
   mysql:
     image: mysql:5.7
     volumes:
+      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
       - ./docker/mysql/volumes:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=root
