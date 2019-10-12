@@ -31,8 +31,11 @@ docker exec -it docker_php533_fuelphp_php_1 /bin/bash
 # composerのインストール
 curl -sS https://getcomposer.org/installer | php
 
-# composerのインストール確認
-php composer.phar
+# composerをコマンドで扱うために環境変数で使えるディレクトリ配下に移動
+mv composer.phar /usr/local/bin/composer
+
+# composerのバージョン確認
+composer --version
 
 # fuel phpのoilコマンドインストール
 curl https://get.fuelphp.com/oil | sh
@@ -42,11 +45,29 @@ which oil
 
 # fuel phpのインストール
 oil create fuel-app
+
 ```
 
 fuelphpをインストール後､ホスト側にfuel-appというフォルダが作成されていればOKです｡
 
 http://localhost:8080/ にアクセスすると､まだApacheの画面が表示されると思います｡
+
+
+
+## 6. oilコマンドについて
+下記の2種類のoilコマンドがあります。
+
+①/usr/local/bin/oil
+→ curl https://get.fuelphp.com/oil | sh で追加
+
+・どこでも使える
+
+②fuel-app/oil
+→ oil create fuel-app で追加
+
+・fuel-app配下にいないと使えない。
+
+## 7. httpd.confの修正
 
 ホスト側のhttpd.confを下記のように変更してください｡
 
