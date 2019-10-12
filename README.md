@@ -20,7 +20,7 @@ http://localhost:8080/
 ## 4. MySQL + phpMyAdmin の確認
 http://localhost:4040/
 
-## 5. composerのインストール～furlphpのインストールまで
+## 5. composer、oilコマンドのインストール
 ```
 # コンテナID確認
 docker ps
@@ -42,16 +42,23 @@ curl https://get.fuelphp.com/oil | sh
 
 # fuel phpのoilコマンドインストール確認
 which oil
+```
 
-# fuel phpのインストール
-oil create fuel-app
+## 6. fuelphp1.7.3のインストール
 
 ```
+# fuel phpのインストール
+composer create-project fuel/fuel:dev-1.7/master fuel-app
+```
+
+インストール中に、Githubでアクセストークンを取得してとエラーが出るはずなので、
+指定されてるURLでアクセストークンを発行して、トークンを貼り付けてEnter。
 
 fuelphpをインストール後､ホスト側にfuel-appというフォルダが作成されていればOKです｡
 
-http://localhost:8080/ にアクセスすると､まだApacheの画面が表示されると思います｡
+以前は、このコマンドで1.7.2がインストールされるみたいですが現在は1.7.3がインストールされるみたいです。
 
+http://localhost:8080/ にアクセスすると､まだApacheの画面が表示されると思います｡
 
 
 ## 6. oilコマンドについて
@@ -96,3 +103,4 @@ docker-compose up -d
 [PHP5\.3\.3環境を2017年に用意する方法 \- Qiita](https://qiita.com/suin/items/b13df0febf02a61cb5c5)
 [docker\-compose で PHP7\.2 \+ Apache \+ MySQL \+ phpMyAdmin 環境を構築 \- Qiita](https://qiita.com/naente_dev/items/d259ea84c172deeff7d8)
 [Docker 仮想CentOS6を動かす \- @//メモ](https://hondou.homedns.org/pukiwiki/index.php?Docker%20%B2%BE%C1%DBCentOS6%A4%F2%C6%B0%A4%AB%A4%B9)
+[FuelPHP 1\.7\.2のComposerによるインストール — A Day in Serenity \(Reloaded\) — PHP, FuelPHP, Linux or something](http://blog.a-way-out.net/blog/2014/07/14/fuelphp-1-7-2-composer-installation/)
