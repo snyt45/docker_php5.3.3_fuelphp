@@ -203,6 +203,44 @@ return array(
 
 ![image.png (38.9 kB)](https://img.esa.io/uploads/production/attachments/12444/2019/10/14/57955/2b8157d5-ea53-4b65-a97d-232028b6c5a7.png)
 
+# VScodeでxdebugを使う
+[Docker × Visual Studio CodeでPHP開発【デバッグ実行】 \- Qiita](https://qiita.com/MasanoriIwakura/items/a310c75e6c5b347adf37)
+
+## 1. VScodeの拡張機能「PHP Debug」をインストール
+
+## 2. /sample/public/index.phpを下記の通りに編集
+```
+<?php
+
+echo 'Hello World<br>';
+
+// hostname, user, password, db name
+$mysqli = new mysqli('mysql', 'root', 'root', 'fuel_dev');
+
+if ($mysqli->connect_error) {
+  echo $mysqli->connect_error;
+  exit();
+} else {
+    $mysqli->set_charset("utf8");
+}
+
+$sql = "SELECT id, name FROM test";
+if ($result = $mysqli->query($sql)) {
+    while ($row = $result->fetch_assoc()) {
+        echo "ID:" . $row["id"] . " NAME:" . $row["name"] . "<br>";
+    }
+    $result->close();
+}
+
+$mysqli->close();
+```
+
+## 3. VScodeでindex.phpを開き、止めたい箇所でブレークポイント追加
+
+## 4. VScode > 左の虫ボタン > 歯車 > PHPを選択 > Listen for XDebugを指定して、▶マークをからデバッグを実行
+
+## 5. http://localhost:8080/ にアクセスして、ブレークポイントで止まれば完了！
+
 
 ## oilコマンドについて
 ちょっと混乱したのでメモ。
