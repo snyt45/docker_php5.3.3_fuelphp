@@ -10,6 +10,7 @@ services:
       - ./docker/php/php.ini:/etc/php.ini
       - ./docker/httpd/httpd.conf:/etc/httpd/conf/httpd.conf
       - ./docker/mysql/volumes:/var/lib/mysql
+      - ./docker/php/xdebug.ini:/etc/php.d/xdebug.ini
     ports:
       - 8080:80
   mysql:

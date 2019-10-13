@@ -11,8 +11,15 @@ RUN yum install -y \
         zip \
         unzip \
         git \
-        httpd && \
+        httpd \
+        php-devel \
+        httpd-devel \
+        php-pear \
+        gcc && \
     yum clean all
+
+RUN pecl channel-update pecl.php.net && \
+    pecl install xdebug-2.2.7
 
 RUN mkdir /app
 WORKDIR /app
