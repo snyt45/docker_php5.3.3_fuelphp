@@ -74,6 +74,8 @@ fuelphpのpublicフォルダが公開フォルダになるので、
 ln -s /app/sample/public/ /var/www/html/
 ```
 
+http://localhost:8080/ にアクセスしてfuelphpの画面が表示されればOK
+
 ## 3. ドキュメントルートの設定
 /var/www/html/publicから、/sample/publicのindex.phpをみる。
 index.phpの下記の場所のディレクトリを通常は変更する必要があるが、
