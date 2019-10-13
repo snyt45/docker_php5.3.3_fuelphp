@@ -48,20 +48,163 @@ which oil
 
 ```
 # fuel phpのインストール
-composer create-project fuel/fuel:dev-1.7/master fuel-app
+composer create-project fuel/fuel:dev-1.7/master sample
 ```
 
 インストール中に、Githubでアクセストークンを取得してとエラーが出るはずなので、
 指定されてるURLでアクセストークンを発行して、トークンを貼り付けてEnter。
 
-fuelphpをインストール後､ホスト側にfuel-appというフォルダが作成されていればOKです｡
+fuelphpをインストール後､ホスト側にsampleというフォルダが作成されていればOKです｡
 
 以前は、このコマンドで1.7.2がインストールされるみたいですが現在は1.7.3がインストールされるみたいです。
 
 http://localhost:8080/ にアクセスすると､まだApacheの画面が表示されると思います｡
 
+# fuelphpの作業準備
+## 1. docsディレクトリ削除
+sampleの中にfuel、public、docsフォルダが作成される。
+docsフォルダは特に必要ないので削除
 
-## 7. oilコマンドについて
+## 2. apacheの公開ディレクトリにpublicフォルダのシンボリックリンクを作成
+httd.confでDocumentRootが/var/www/html/publicを設定している。
+
+fuelphpのpublicフォルダが公開フォルダになるので、
+/var/www/html/にpublicフォルダのシンボリックリンクを貼る。
+
+```
+ln -s /app/sample/public/ /var/www/html/
+```
+
+## 3. ドキュメントルートの設定
+/var/www/html/publicから、/sample/publicのindex.phpをみる。
+index.phpの下記の場所のディレクトリを通常は変更する必要があるが、
+pubilc本体の場所に変更はないので、特に変更の必要はない。
+
+```
+/**
+ * Path to the application directory.
+ */
+define('APPPATH', realpath(__DIR__.'/../fuel/app/').DIRECTORY_SEPARATOR);
+
+/**
+ * Path to the default packages directory.
+ */
+define('PKGPATH', realpath(__DIR__.'/../fuel/packages/').DIRECTORY_SEPARATOR);
+
+/**
+ * The path to the framework core.
+ */
+define('COREPATH', realpath(__DIR__.'/../fuel/core/').DIRECTORY_SEPARATOR);
+```
+
+## 4. ORMパッケージを有効にする。
+/sample/fuel/app/config/config.phpを以下のようにコメントアウトを外す。
+```
+	/**************************************************************************/
+	/* Always Load                                                            */
+	/**************************************************************************/
+	'always_load'  => array(
+
+		/**
+		 * These packages are loaded on Fuel's startup.
+		 * You can specify them in the following manner:
+		 *
+		 * array('auth'); // This will assume the packages are in PKGPATH
+		 *
+		 * // Use this format to specify the path to the package explicitly
+		 * array(
+		 *     array('auth'	=> PKGPATH.'auth/')
+		 * );
+		 */
+		'packages'  => array(
+			'orm',
+		),
+
+		/**
+		 * These modules are always loaded on Fuel's startup. You can specify them
+		 * in the following manner:
+		 *
+		 * array('module_name');
+		 *
+		 * A path must be set in module_paths for this to work.
+		 */
+		// 'modules'  => array(),
+
+		/**
+		 * Classes to autoload & initialize even when not used
+		 */
+		// 'classes'  => array(),
+
+		/**
+		 * Configs to autoload
+		 *
+		 * Examples: if you want to load 'session' config into a group 'session' you only have to
+		 * add 'session'. If you want to add it to another group (example: 'auth') you have to
+		 * add it like 'session' => 'auth'.
+		 * If you don't want the config in a group use null as groupname.
+		 */
+		// 'config'  => array(),
+
+		/**
+		 * Language files to autoload
+		 *
+		 * Examples: if you want to load 'validation' lang into a group 'validation' you only have to
+		 * add 'validation'. If you want to add it to another group (example: 'forms') you have to
+		 * add it like 'validation' => 'forms'.
+		 * If you don't want the lang in a group use null as groupname.
+		 */
+		// 'language'  => array(),
+	),
+```
+
+## 5. データベースの準備
+MySQL にデータベースを作成します。
+http://localhost:4040/ のSQLで以下のコマンドを実行。
+
+```
+CREATE DATABASE `fuel_dev` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+```
+
+必要に応じて、/sample/fuel/app/config/development/db.phpの設定を変更する。
+
+マイグレーション時、dsnのdbnameで指定したデータベースにテーブルが作成されます。
+
+## 6. モデル作成
+必要なモデルの作成とマイグレーションの実行。
+
+```
+cd /app/sample
+php oil generate model hoge name:varchar[255] sex:int del_flg:bool
+php oil refine migrate
+```
+
+http://localhost:4040/ にアクセスして、hogesテーブルができていることを確認します。
+
+## 7. コントローラー作成
+```
+cd /app/sample
+php oil generate controller example index add
+```
+
+## 8. TOPページの設定
+/sample/fuel/app/config/routes.phpで、TOPページになるコントローラーを指定。
+
+```
+<?php
+return array(
+    '_root_' => 'example/index',
+    ...
+);
+```
+
+## 9. 反映確認
+再度 http://localhost:8080/ にアクセスして､以下の画面が表示されれば成功です｡
+
+![image.png (38.9 kB)](https://img.esa.io/uploads/production/attachments/12444/2019/10/14/57955/2b8157d5-ea53-4b65-a97d-232028b6c5a7.png)
+
+
+## oilコマンドについて
+ちょっと混乱したのでメモ。
 下記の2種類のoilコマンドがあります。
 
 ①/usr/local/bin/oil
@@ -74,33 +217,9 @@ http://localhost:8080/ にアクセスすると､まだApacheの画面が表示
 
 ・fuel-app配下にいないと使えない。
 
-## 8. httpd.confの修正
-
-ホスト側のhttpd.confを下記のように変更してください｡
-
-```httpd.conf
-変更点
-DocumentRoot "/app"
-↓
-DocumentRoot "/app/fuel-app/public"
-```
-
-以下のコマンドで設定を反映させます｡
-
-```
-docker-compose stop
-docker-compose up -d
-```
-
-
-## 9. 反映確認
-再度 http://localhost:8080/ にアクセスして､以下の画面が表示されれば成功です｡
-
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/163887/584f6e04-8a32-98bf-f696-cad1160af4c6.png)
-
-
 # とても参考
 [PHP5\.3\.3環境を2017年に用意する方法 \- Qiita](https://qiita.com/suin/items/b13df0febf02a61cb5c5)
 [docker\-compose で PHP7\.2 \+ Apache \+ MySQL \+ phpMyAdmin 環境を構築 \- Qiita](https://qiita.com/naente_dev/items/d259ea84c172deeff7d8)
 [Docker 仮想CentOS6を動かす \- @//メモ](https://hondou.homedns.org/pukiwiki/index.php?Docker%20%B2%BE%C1%DBCentOS6%A4%F2%C6%B0%A4%AB%A4%B9)
 [FuelPHP 1\.7\.2のComposerによるインストール — A Day in Serenity \(Reloaded\) — PHP, FuelPHP, Linux or something](http://blog.a-way-out.net/blog/2014/07/14/fuelphp-1-7-2-composer-installation/)
+[FuelPHPのインストールから開発までの流れをおさらい \- BTT's blog](http://btt.hatenablog.com/entry/2012/10/31/004104)
