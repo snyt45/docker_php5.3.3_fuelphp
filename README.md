@@ -14,13 +14,12 @@ docker-compose up -d
 ```
 `docker ps`でコンテナの稼働状況を確認
 
-## 3. Apacheの動作確認
-http://localhost:8080/
+## 3. MySQL + phpMyAdmin の確認
+ちょっと時間を置いてアクセス。
 
-## 4. MySQL + phpMyAdmin の確認
 http://localhost:4040/
 
-## 5. composer、oilコマンドのインストール
+## 4. composer、oilコマンドのインストール
 ```
 # コンテナID確認
 docker ps
@@ -44,7 +43,7 @@ curl https://get.fuelphp.com/oil | sh
 which oil
 ```
 
-## 6. fuelphp1.7.3のインストール
+## 5. fuelphp1.7.3のインストール
 
 ```
 # fuel phpのインストール
