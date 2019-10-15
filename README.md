@@ -157,16 +157,20 @@ define('COREPATH', realpath(__DIR__.'/../fuel/core/').DIRECTORY_SEPARATOR);
 ```
 
 ## 5. データベースの準備
+先に､sample\fuel\app\config\development\db.phpを編集する｡
+dsn部分のみ抜粋｡
+マイグレーション時、dsnのdbnameで指定したデータベースにテーブルが作成されます。
+
+```
+'dsn'        => 'mysql:host=mysql;dbname=fuel_dev;unix_socket=/tmp/mysql.sock',
+```
+
 MySQL にデータベースを作成します。
 http://localhost:4040/ のSQLで以下のコマンドを実行。
 
 ```
 CREATE DATABASE `fuel_dev` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 ```
-
-必要に応じて、/sample/fuel/app/config/development/db.phpの設定を変更する。
-
-マイグレーション時、dsnのdbnameで指定したデータベースにテーブルが作成されます。
 
 ## 6. モデル作成
 必要なモデルの作成とマイグレーションの実行。
