@@ -11,6 +11,7 @@ services:
       - ./docker/httpd/httpd.conf:/etc/httpd/conf/httpd.conf
       - ./docker/mysql/volumes:/var/lib/mysql
       - ./docker/php/xdebug.ini:/etc/php.d/xdebug.ini
+      - ./docker/mysql:/tmp/mysql.sock
     ports:
       - 8080:80
   mysql:
@@ -18,6 +19,7 @@ services:
     volumes:
       - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
       - ./docker/mysql/volumes:/var/lib/mysql
+      - ./docker/mysql:/var/run/mysqld/mysqld.sock
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=test
