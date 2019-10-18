@@ -18,9 +18,6 @@ RUN yum install -y \
         gcc && \
     yum clean all
 
-RUN pecl channel-update pecl.php.net && \
-    pecl install xdebug-2.2.7
-
 RUN mkdir /app
 WORKDIR /app
 
